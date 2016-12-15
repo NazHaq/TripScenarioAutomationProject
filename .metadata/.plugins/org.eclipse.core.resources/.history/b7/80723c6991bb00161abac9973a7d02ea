@@ -1,0 +1,48 @@
+package firsttestngpackage;
+
+import org.testng.annotations.Test;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
+import org.testng.asserts.*;
+import junit.framework.Assert;
+import org.testng.annotations.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import utility.Constant;
+import utility.BrowserType;
+
+public class FirstTestNGFile {
+	
+	public WebDriver driver;
+	//String Browser= "chrome";
+    
+@BeforeTest	
+public void setUp(){
+	   driver = BrowserType.Execute();
+}
+
+
+	
+@SuppressWarnings("deprecation")
+@Test
+  public void verifyHomepageTitle() {
+//	System.setProperty("webdriver.chrome.driver","C:\\Users\\nazmul.haque.HC\\Desktop\\ChromeDriver\\chromedriver.exe");
+	 System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+      String expectedTitle = "ONLINE STORE | Toolsqa Dummy Test site";
+	 // WebDriver driver = new ChromeDriver();
+	String actualTitle = driver.getTitle();
+	Assert.assertEquals(expectedTitle, actualTitle);
+
+  }
+
+@SuppressWarnings("deprecation")
+@Test
+public void c_test(){
+	//System.setProperty("webdriver.chrome.driver","C:\\Users\\nazmul.haque.HC\\Desktop\\ChromeDriver\\chromedriver.exe");
+	System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+	//WebDriver driver = new ChromeDriver();
+	Assert.fail();
+	driver.quit();
+}
+
+
+}

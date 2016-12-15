@@ -1,0 +1,116 @@
+package firsttestngpackage;
+
+import org.testng.annotations.Test;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
+import org.testng.asserts.*;
+import junit.framework.Assert;
+import org.testng.annotations.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import utility.Constant;
+import utility.BrowserType;
+import parameters.DataproviderClass;
+
+public class FirstTestNGFile {
+	
+	public WebDriver driver;
+	public String expected =null;	
+	public String actual =null;
+	WebElement element=null;;
+    
+@BeforeTest	
+public void setUp(){
+	   driver = BrowserType.Execute();
+}
+
+@SuppressWarnings("deprecation")
+@Test(priority=0)
+  public void verifyHomepageTitle() {
+	 System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+     expected = "ONLINE STORE | Toolsqa Dummy Test site";
+	 actual = driver.getTitle();
+	 Assert.assertEquals(expected, actual);
+
+  }
+
+@SuppressWarnings("deprecation")
+@Test(priority=1)
+public void user_Register()
+{	
+	System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+	driver.findElement(By.xpath(".//*[@id='account']/a")).click();
+	driver.findElement(By.linkText("Register")).click();
+    expected = "ONLINE STORE › Registration Form";
+	actual = driver.getTitle();
+	Assert.assertEquals(expected, actual);
+    
+    try{
+    	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		
+    }catch (Exception e){
+		}
+   
+   
+    Assert.assertNotNull(driver.findElement (By.partialLinkText("Back to ONLINE STORE")));
+    driver.findElement (By.partialLinkText("Back to ONLINE STORE")).click();
+    System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
+}
+
+@SuppressWarnings("deprecation")
+@Test(dataProvider="SearchProvider",dataProviderClass=DataproviderClass.class)
+public void valid_UserCredential(String user,String password) throws InterruptedException
+     {
+	System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+    driver.findElement(By.xpath(".//*[@id='account']/a")).click();
+    driver.findElement(By.id("log")).sendKeys(user);
+    driver.findElement(By.id("pwd")).sendKeys(password);
+    driver.findElement(By.id("login")).click();
+
+    System.out.println("Welcome ->"+user+" Your search key is->"+password);
+
+    Thread.sleep(3000);
+
+    //get text from search box
+
+    String testAuthor = driver.findElement(By.id("log")).getAttribute("value");
+    String testPassword = driver.findElement(By.id("pwd")).getAttribute("value");
+
+    System.out.println(testAuthor +"::::"+user);
+
+    driver.findElement(By.id("log")).clear();
+    driver.findElement(By.id("pwd")).clear();
+
+    //verify if search box has correct value
+    Assert.assertTrue(testAuthor.equalsIgnoreCase(user));
+    Assert.assertTrue(testPassword.equalsIgnoreCase(password));
+}
+
+@SuppressWarnings("deprecation")
+@Test(priority=3)
+public void inValid_UserCredential()
+{	
+	System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+    driver.findElement(By.xpath(".//*[@id='account']/a")).click();
+    driver.findElement(By.id("log")).sendKeys("testuser");
+    driver.findElement(By.id("pwd")).sendKeys("Test@123");
+    driver.findElement(By.id("login")).click();
+    
+    try{
+    	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		element = driver.findElement(By.xpath(".//*[@id='account_logout']/a"));
+    }catch (Exception e){
+		}
+    Assert.assertNull(element);
+    System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
+}
+
+@AfterTest
+public void closeBrowser(){
+	 driver.quit();
+}
+
+
+}

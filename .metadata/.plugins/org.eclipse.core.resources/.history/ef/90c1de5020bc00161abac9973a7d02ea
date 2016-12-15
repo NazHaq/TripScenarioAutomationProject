@@ -1,0 +1,101 @@
+package firsttestngpackage;
+
+import org.testng.annotations.Test;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
+import org.testng.asserts.*;
+import junit.framework.Assert;
+import org.testng.annotations.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import utility.Constant;
+import utility.BrowserType;
+
+public class FirstTestNGFile {
+	
+	public WebDriver driver;
+	public String expected =null;	
+	public String actual =null;
+	WebElement element;
+    
+@BeforeTest	
+public void setUp(){
+	   driver = BrowserType.Execute();
+}
+
+@Test(priority=0)
+  public void verifyHomepageTitle() {
+	 System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+     expected = "ONLINE STORE | Toolsqa Dummy Test site";
+	 actual = driver.getTitle();
+	 Assert.assertEquals(expected, actual);
+
+  }
+
+@Test(priority=1)
+public void user_Register()
+{	
+	System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+	driver.findElement(By.xpath(".//*[@id='account']/a")).click();
+	driver.findElement(By.linkText("Register")).click();
+    expected = "ONLINE STORE › Registration Form";
+	actual = driver.getTitle();
+	Assert.assertEquals(expected, actual);
+    
+    try{
+    	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		element = driver.findElement (By.partialLinkText("Back to ONLINE STORE"));
+    }catch (Exception e){
+		}
+    Assert.assertNotNull(element);
+    System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
+}
+
+@Test(priority=2)
+public void valid_UserCredential()
+{
+		System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+	    driver.findElement(By.xpath(".//*[@id='account']/a")).click();
+	    driver.findElement(By.id("log")).sendKeys("testuser_3");
+	    driver.findElement(By.id("pwd")).sendKeys("Test@123");
+	    driver.findElement(By.id("login")).click();
+    try{
+    	 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		 element = driver.findElement (By.xpath(".//*[@id='account_logout']/a"));
+	 }catch (Exception e){
+		}
+    Assert.assertNull(element);
+    System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
+}
+
+@Test(priority=3)
+public void inValid_UserCredential()
+{	
+	System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+    driver.findElement(By.xpath(".//*[@id='account']/a")).click();
+    driver.findElement(By.id("log")).sendKeys("testuser");
+    driver.findElement(By.id("pwd")).sendKeys("Test@123");
+    driver.findElement(By.id("login")).click();
+    
+    try{
+    	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		element = driver.findElement (By.xpath(".//*[@id='account_logout']/a"));
+    }catch (Exception e){
+		}
+    Assert.assertNull(element);
+    System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
+}
+
+
+
+
+
+@AfterClass
+public void closeBrowser(){
+	 driver.quit();
+}
+
+
+}

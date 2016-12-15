@@ -1,0 +1,37 @@
+package firsttestngpackage;
+
+import org.testng.annotations.Test;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
+import org.testng.asserts.*;
+import junit.framework.Assert;
+import org.testng.annotations.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class FirstTestNGFile {
+	
+	public String baseUrl= "http://www.store.demoqa.com";
+	//public WebDriver driver = new ChromeDriver();
+    
+  
+@SuppressWarnings("deprecation")
+@Test
+  public void verifyHomepageTitle() {
+	  System.setProperty("webdriver.chrome.driver","C:\\Users\\nazmul.haque.HC\\Desktop\\ChromeDriver\\chromedriver.exe");	
+	  WebDriver driver = new ChromeDriver();
+	  driver.get(baseUrl);
+	  String expectedTitle = "ONLINE STORE | Toolsqa Dummy Test site";
+	  String actualTitle = driver.getTitle();
+	Assert.assertEquals(expectedTitle, actualTitle);
+	driver.quit();
+  }
+
+@SuppressWarnings("deprecation")
+@Test
+public void c_test(){
+	Assert.fail();
+}
+
+
+}

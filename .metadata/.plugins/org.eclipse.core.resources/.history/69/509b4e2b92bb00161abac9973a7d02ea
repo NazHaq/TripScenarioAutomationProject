@@ -1,0 +1,43 @@
+package firsttestngpackage;
+
+import org.testng.annotations.Test;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
+import org.testng.asserts.*;
+import junit.framework.Assert;
+import org.testng.annotations.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import utility.Constant;
+import utility.BrowserType;
+
+public class FirstTestNGFile {
+	
+	public WebDriver driver;
+    
+@BeforeTest	
+public void setUp(){
+	   driver = BrowserType.Execute();
+}
+
+
+	
+@SuppressWarnings("deprecation")
+@Test
+  public void verifyHomepageTitle() {
+	 System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+     String expectedTitle = "ONLINE STORE | Toolsqa Dummy Test site";
+	 String actualTitle = driver.getTitle();
+	 Assert.assertEquals(expectedTitle, actualTitle);
+
+  }
+
+@SuppressWarnings("deprecation")
+@AfterMethod
+public void c_test(){
+	System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+	Assert.fail();
+	driver.quit();
+}
+
+
+}

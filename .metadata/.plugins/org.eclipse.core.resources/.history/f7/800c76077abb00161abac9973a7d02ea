@@ -1,0 +1,28 @@
+package firsttestngpackage;
+
+import org.testng.annotations.Test;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
+import org.testng.asserts.*;
+import junit.framework.Assert;
+import org.testng.annotations.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class FirstTestNGFile {
+	//System.setProperty("webdriver.chrome.driver","C:\\Users\\nazmul.haque.HC\\Desktop\\ChromeDriver\\chromedriver.exe");
+	public String baseUrl= "http://www.store.demoqa.com";
+	public WebDriver driver = new ChromeDriver();
+ 
+  
+@SuppressWarnings("deprecation")
+@Test
+  public void verifyHomepageTitle() {
+	 System.setProperty("webdriver.chrome.driver","C:\\Users\\nazmul.haque.HC\\Desktop\\ChromeDriver\\chromedriver.exe");
+	  driver.get(baseUrl);
+	  String expectedTitle = "Welcome: Mercury Tours";
+	  String actualTitle = driver.getTitle();
+	Assert.assertEquals(expectedTitle, actualTitle);
+	driver.quit();
+  }
+}
